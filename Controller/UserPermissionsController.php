@@ -26,19 +26,18 @@ final class UserPermissionsController extends BaseApiController
     #[ApiSecurity(name: 'apiToken')]
     public function mePermissionsAction(): Response
     {
-        $user = $this->getUser();
-
-        $timesheet = new Timesheet();
-        $timesheet->setUser($user);
-
         $isGranted = [
             'own_timesheet' => [
+                'view'          => $this->isGranted('view_own_timesheet'),
                 'create'        => $this->isGranted('create_own_timesheet'),
-                'edit'          => $this->isGranted('edit', $timesheet),
-                'edit_rate'     => $this->isGranted('edit_rate', $timesheet),
-                'edit_export'   => $this->isGranted('edit_export', $timesheet),
-                'edit_billable' => $this->isGranted('edit_billable', $timesheet),
-                'delete'        => $this->isGranted('delete', $timesheet),
+                'edit'          => $this->isGranted('edit_own_timesheet'),
+                'delete'        => $this->isGranted('delete_own_timesheet'),
+            ],
+            'other_timesheet' => [
+                'view'         => $this->isGranted('view_other_timesheet'),
+                'create'       => $this->isGranted('create_other_timesheet'),
+                'edit'         => $this->isGranted('edit_other_timesheet'),
+                'delete'       => $this->isGranted('delete_other_timesheet'),
             ],
         ];
 
